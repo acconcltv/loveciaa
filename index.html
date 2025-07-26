@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun, Cia Sayangku!</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Mengatur font Great Vibes (untuk judul), Dancing Script (untuk ucapan utama), dan Quicksand (untuk teks umum) */
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;700&family=Dancing+Script:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Quicksand', sans-serif; /* Menggunakan Quicksand sebagai font utama */
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+            overflow-y: auto; /* Memungkinkan scroll vertikal */
+            min-height: 100vh; /* Pastikan body setidaknya setinggi viewport */
+            margin: 0; /* Hapus margin default body */
+            padding: 0; /* Hapus padding default body */
+        }
+
+        /* Animasi hati yang mengambang dari bawah ke atas di halaman utama */
+        @keyframes mainPageHeartFloatUp {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.5); /* Mulai dari posisi awal, kecil, tidak berputar */
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.7; /* Opasitas penuh saat mulai terlihat */
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg) scale(1.2); /* Melayang ke atas layar, berputar, sedikit membesar */
+                opacity: 0; /* Memudar saat keluar layar */
+            }
+        }
+
+        .main-page-heart-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Memungkinkan klik di bawah hati */
+            overflow: hidden; /* Memastikan hati tidak keluar dari viewport */
+            z-index: 11; /* Di atas mainContent (10) */
+        }
+
+        .main-page-heart {
+            position: absolute;
+            background-color: rgba(255, 105, 180, 0.6); /* Pink transparan */
+            transform: rotate(-45deg); /* Bentuk hati */
+            animation: mainPageHeartFloatUp 5s forwards ease-out; /* Menggunakan animasi baru */
+            border-radius: 50% 50% 0 0;
+            z-index: 0;
+        }
+
+        .main-page-heart::before,
+        .main-page-heart::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: inherit;
+            border-radius: 50%;
+        }
+
+        .main-page-heart::before {
+            left: -50%;
+        }
+
+        .main-page-heart::after {
+            top: -50%;
+        }
+
+
+        /* Animasi hati untuk halaman awal */
+        @keyframes popHeart {
+            0% {
+                transform: scale(0) translateY(0px);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2) translateY(-20px);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.8) translateY(-50px);
+                opacity: 0;
+            }
+        }
+
+        .initial-heart {
+            position: absolute;
+            background-color: rgba(255, 105, 180, 0.9); /* Hati pink yang lebih terang */
+            transform: rotate(-45deg);
+            animation: popHeart 2s forwards ease-out; /* Animasi pop */
+            border-radius: 50% 50% 0 0;
+            z-index: 5; /* Di atas latar belakang, di bawah teks */
+            pointer-events: none;
+        }
+
+        .initial-heart::before,
+        .initial-heart::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: inherit;
+            border-radius: 50%;
+        }
+
+        .initial-heart::before {
+            left: -50%;
+        }
+
+        .initial-heart::after {
+            top: -50%;
+        }
+
+
+        /* Animasi tombol */
+        .btn-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 20px rgba(255, 105, 180, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 105, 180, 0);
+            }
+        }
+
+        /* Efek confetti */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ffcc00; /* Kuning */
+            opacity: 0;
+            animation: fallConfetti 3s forwards;
+        }
+
+        @keyframes fallConfetti {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Modal styling (untuk pesan) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1001; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Responsive grid for photos */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(1, minmax(0, 1fr)); /* Default to 1 column */
+            gap: 1rem; /* Tailwind's gap-4 */
+        }
+
+        @media (min-width: 640px) { /* sm breakpoint */
+            .photo-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (min-width: 768px) { /* md breakpoint */
+            .photo-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (min-width: 1024px) { /* lg breakpoint */
+            .photo-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+        }
+
+        /* Video thumbnail styling */
+        .video-thumbnail-container {
+            position: relative;
+            cursor: pointer;
+            background-color: #f0f0f0; /* Fallback background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .play-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .play-button svg {
+            fill: #ff69b4; /* Pink color for play icon */
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Animasi Balon */
+        @keyframes balloonFloat {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-500px) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .balloon-element {
+            position: absolute;
+            background-color: rgba(255, 105, 180, 0.8); /* Pink */
+            border-radius: 50%;
+            animation: balloonFloat 8s forwards ease-out;
+            pointer-events: none;
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+        }
+
+        /* Animasi Terompet (Blast Effect) */
+        @keyframes trumpetBlast {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .trumpet-blast-element {
+            position: absolute;
+            background-color: rgba(255, 255, 0, 0.8); /* Kuning terang */
+            border-radius: 50%;
+            animation: trumpetBlast 0.8s forwards ease-out;
+            pointer-events: none;
+        }
+
+        /* Tombol Hati di Modal */
+        .modal-heart-button {
+            width: 60px;
+            height: 60px;
+            background-color: #ff69b4; /* Pink */
+            position: relative;
+            transform: rotate(-45deg);
+            border-radius: 0; /* Mulai dari bentuk kotak */
+            display: flex; /* Untuk memusatkan ikon */
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            cursor: pointer;
+            margin-top: 1rem; /* Tailwind's mt-4 */
+            border: none; /* Hapus border default button */
+            padding: 0; /* Hapus padding default button */
+        }
+
+        .modal-heart-button::before,
+        .modal-heart-button::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: inherit;
+            border-radius: 50%;
+        }
+
+        .modal-heart-button::before {
+            top: -50%;
+            left: 0;
+        }
+
+        .modal-heart-button::after {
+            left: 50%;
+            top: 0;
+        }
+
+        .modal-heart-button svg {
+            position: relative; /* Bawa SVG di atas pseudo-elemen */
+            z-index: 1;
+            transform: rotate(45deg); /* Putar balik SVG agar tegak */
+            width: 30px; /* Ukuran ikon hati */
+            height: 30px;
+            fill: white; /* Warna ikon hati */
+        }
+
+        .modal-heart-button:hover {
+            transform: rotate(-45deg) scale(1.1);
+            background-color: #e0569a; /* Warna pink sedikit lebih gelap saat hover */
+        }
+
+        /* Kontainer animasi balon dan terompet di level body */
+        #balloonAndTrumpetContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1; /* Di atas background, di bawah main content (z-index 10) */
+        }
+
+        /* Modal untuk tampilan gambar besar */
+        .image-modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1002; /* Di atas semua modal lain */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background-color: rgba(0,0,0,0.8); /* Black w/ more opacity */
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Mencegah scroll pada modal itu sendiri */
+        }
+
+        .image-modal-content {
+            position: relative;
+            max-width: 95%; /* Diperbesar dari 90% */
+            max-height: 95%; /* Diperbesar dari 90% */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-modal-content img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Memastikan gambar pas tanpa terpotong */
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+        }
+
+        .image-modal-nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 2rem;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+            z-index: 1003; /* Di atas gambar */
+        }
+
+        .image-modal-nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        #prevImageBtn {
+            left: 10px;
+        }
+
+        #nextImageBtn {
+            right: 10px;
+        }
+
+        #closeImageModalBtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+            z-index: 1003;
+        }
+
+        #closeImageModalBtn:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Gaya untuk tombol hadiah spesial */
+        .special-gift-button {
+            background-color: #ff69b4; /* Pink */
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem; /* Ukuran teks lebih besar */
+            padding: 1.5rem 3rem; /* Padding lebih besar */
+            border-radius: 9999px; /* Bentuk lingkaran penuh */
+            box-shadow: 0 10px 15px rgba(255, 105, 180, 0.4); /* Bayangan lebih menonjol */
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex; /* Untuk memusatkan ikon dan teks */
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #fff; /* Border putih */
+        }
+
+        .special-gift-button:hover {
+            background-color: #e0569a; /* Pink lebih gelap saat hover */
+            transform: translateY(-5px) scale(1.02); /* Sedikit naik dan membesar */
+            box-shadow: 0 15px 20px rgba(255, 105, 180, 0.6); /* Bayangan lebih kuat */
+        }
+
+        .special-gift-button svg {
+            width: 40px; /* Ukuran ikon hati */
+            height: 40px;
+            fill: white;
+            margin-right: 0.75rem; /* Jarak antara ikon dan teks */
+            transform: rotate(0deg); /* Pastikan ikon tidak terputar */
+            transition: transform 0.3s ease;
+        }
+
+        .special-gift-button:hover svg {
+            transform: rotate(10deg) scale(1.1); /* Ikon berputar sedikit saat hover */
+        }
+
+        /* Animasi untuk efek klik */
+        .special-gift-button:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 0 5px 10px rgba(255, 105, 180, 0.3);
+        }
+
+        /* Sembunyikan halaman awal secara default untuk mencegah FOUT/FOIT */
+        #initialPage {
+            display: none;
+        }
+
+        /* Definisi animasi fade-in untuk konten utama */
+        @keyframes fadeInContent {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Kelas yang akan ditambahkan untuk memicu animasi fade-in */
+        .fade-in-content-active {
+            animation: fadeInContent 1s forwards ease-in-out; /* Durasi 1 detik, tetap di akhir animasi */
+        }
+
+        /* Tombol Mute/Unmute */
+        #muteButton {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1004; /* Pastikan di atas semua elemen lain */
+            background-color: rgba(255, 255, 255, 0.6);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        #muteButton:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        #muteButton svg {
+            width: 24px;
+            height: 24px;
+            fill: #ff69b4; /* Pink */
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-200 via-purple-200 to-red-200 relative">
+
+    <!-- Kontainer hati yang bergerak (untuk halaman utama) -->
+    <div class="main-page-heart-container" id="mainPageHeartContainer"></div>
+
+    <!-- Kontainer confetti -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <!-- Kontainer Balon dan Terompet (SEKARANG DI LEVEL BODY) -->
+    <div id="balloonAndTrumpetContainer"></div>
+
+    <!-- Modal untuk pesan -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeModalBtn">&times;</span>
+            <p id="modalMessage" class="text-lg font-semibold text-gray-800"></p>
+            <!-- Tombol Hati Baru -->
+            <button id="modalOkBtn" class="modal-heart-button">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal untuk tampilan gambar besar -->
+    <div id="imageModal" class="image-modal">
+        <div class="image-modal-content">
+            <img id="modalImage" src="" alt="Gambar Besar">
+            <button id="prevImageBtn" class="image-modal-nav-button">&lt;</button>
+            <button id="nextImageBtn" class="image-modal-nav-button">&gt;</button>
+            <button id="closeImageModalBtn">&times;</button>
+        </div>
+    </div>
+
+    <!-- Wrapper utama untuk konten agar bisa di-scroll dan tetap terpusat -->
+    <div class="flex flex-col items-center justify-center min-h-screen w-full p-6">
+        <div id="mainContent" class="hidden w-full max-w-6xl p-6 bg-white bg-opacity-70 rounded-3xl shadow-2xl z-10 mx-4 my-8">
+            <header class="text-center mb-10 relative">
+                <h1 class="text-5xl md:text-6xl font-['Dancing_Script'] text-pink-600 mb-4" id="birthdayGreeting">Happy birthday, Cia-ku yang paling cantik dan gemesin! 🎉❤️</h1>
+                <p class="text-xl md:text-2xl text-gray-700 font-semibold">Selamat ulang tahun, Sayangkuu! Semoga kamu sehat selalu, panjang umur, dimudahkan segala urusannya dannn sayang selaluuu sama akuuuu!!! Kado menyusul yaa sayangg!! Hihii, tapi kalo mo request boleee hahaha.</p>
+            </header>
+
+            <section class="mb-12 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-purple-600 mb-6">Sebuah Pesan Spesial Dariku</h2>
+                <p class="text-lg md:text-xl text-gray-800 leading-relaxed max-w-3xl mx-auto">
+                    "Meskipun jarak membentang di antara kita, setiap hari bersamamu (walau hanya lewat sapaan dan tawa di hp) adalah hadiah terindah. Di ulang tahun spesialmu ini, aku ingin kamu tahu betapa berartinya dirimu bagiku. Semoga kebahagiaan selalu menyertaimu, dan semoga cinta kita terus tumbuh, melintasi setiap kilometer yang memisahkan. Aku mencintaimu lebih dari kata-kata bisa ungkapkan. Selamat ulang tahun, sayangkuuu!"
+                </p>
+            </section>
+
+            <section class="mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-red-600 mb-8 text-center">Momen-momen Pertama Kitaa!!!</h2>
+                <div class="photo-grid" id="photoGrid">
+                    <!-- Foto-foto akan dimuat di sini oleh JavaScript -->
+                </div>
+            </section>
+
+            <section class="mb-12 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-600 mb-6">Video Favorittt!!</h2>
+                <div id="videoContainer" class="relative w-full max-w-4xl mx-auto rounded-xl overflow-hidden shadow-lg aspect-video">
+                    <!-- Thumbnail video -->
+                    <div id="videoThumbnail" class="video-thumbnail-container w-full h-full">
+                        <img src="https://images.template.net/80658/Free-simple-love-vector-jpg-1.jpg" alt="Video Thumbnail" class="w-full h-full object-cover">
+                        <div class="play-button">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- Video iframe (akan dimuat setelah diklik) -->
+                    <div id="videoPlayer" class="hidden w-full h-full">
+                        <!-- Iframe akan dimasukkan di sini oleh JavaScript -->
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500 mt-2">
+                    (Klik thumbnail di atas untuk memutar videonya sayang!)
+                </p>
+            </section>
+
+            <!-- Bagian Tombol Hadiah Spesial -->
+            <section class="mb-12 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-green-600 mb-8">Lainnya Untukmu!</h2>
+                <div class="flex justify-center">
+                    <button id="specialGiftButton" class="special-gift-button">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        <span>Kitaa!</span>
+                    </button>
+                </div>
+                <p class="text-sm text-gray-500 mt-2">
+                    (Klik tombol di atas sayaangg!)
+                </p>
+            </section>
+
+            <footer class="text-center mt-12 text-gray-600">
+                <p>&copy; 2025 Dari Irvan, Untuk Cia Tersayang.</p>
+            </footer>
+        </div>
+
+        <!-- Halaman Awal Kejutan -->
+        <div id="initialPage" class="flex flex-col items-center justify-center min-h-screen w-full bg-gradient-to-br from-pink-300 via-purple-300 to-red-300 text-center p-6 relative z-10">
+            <!-- Kontainer untuk hati animasi di halaman awal -->
+            <div id="initialHeartContainer" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+
+            <h1 class="text-5xl md:text-7xl font-['Great_Vibes'] text-white drop-shadow-lg mb-8 animate-fade-in">Halo Cia Sayangku!</h1>
+            <p class="text-xl md:text-3xl text-white font-semibold mb-12 animate-fade-in-delay">Ada kejutan untukmu...</p>
+            <button id="surpriseButton" class="px-8 py-4 bg-white text-pink-600 font-bold text-2xl rounded-full shadow-xl hover:bg-pink-100 transition duration-300 btn-pulse">
+                Klik di sini untuk kejutan!
+            </button>
+        </div>
+    </div>
+
+    <!-- Elemen Audio untuk Backsound -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://res.cloudinary.com/da6j6pfqb/video/upload/v1753518179/Spring-Flowers_chosic.com_ewf9ee.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Tombol Mute/Unmute -->
+    <button id="muteButton">
+        <svg id="volumeOnIcon" viewBox="0 0 24 24">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.98 7-4.69 7-8.77s-2.99-7.79-7-8.77z"/>
+        </svg>
+        <svg id="volumeOffIcon" viewBox="0 0 24 24" class="hidden">
+            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .96-.24 1.86-.65 2.67l1.78 1.78c.6-.92.95-2.03.95-3.45 0-4.01-2.99-7.72-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27l3.98 3.98L3 12v6h4l5 5V12l.48-.48 4.07 4.07.94-.94L5.21 3.06 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+        </svg>
+    </button>
+
+    <script>
+        // Array untuk menyimpan URL semua foto
+        const photoUrls = [
+            "https://res.cloudinary.com/da6j6pfqb/image/upload/v1753365272/WhatsApp_Image_2025-07-24_at_08.55.31_1_mjbpl3.jpg",
+            "https://res.cloudinary.com/da6j6pfqb/image/upload/v1753365372/WhatsApp_Image_2025-07-24_at_08.55.31_2_qfdkrw.jpg",
+            "https://res.cloudinary.com/da6j6pfqb/image/upload/v1753365372/WhatsApp_Image_2025-07-24_at_08.55.32_2_laiy73.jpg",
+            "https://res.cloudinary.com/da6j6pfqb/image/upload/v1753365372/WhatsApp_Image_2025-07-24_at_08.55.32_1_ydzaf5.jpg",
+            "https://res.cloudinary.com/da6j6pfqb/image/upload/v1753365373/WhatsApp_Image_2025-07-24_at_08.55.34_x3eiuf.jpg",
+            "https://res.cloudinary.com/da6j6pfqb/image/upload/v1753365373/WhatsApp_Image_2025-07-24_at_08.55.32_wo9ekq.jpg",
+            "https://res.cloudinary.com/da6j6pfqb/image/upload/v1753365374/WhatsApp_Image_2025-07-24_at_08.55.36_1_qztk9t.jpg",
+            "https://res.cloudinary.com/da6j6pfqb/image/upload/v1753365374/WhatsApp_Image_2025-07-24_at_08.55.35_uiivn6.jpg",
+            "https://res.cloudinary.com/da6j6pfqb/image/upload/v1753365374/WhatsApp_Image_2025-07-24_at_08.55.36_bldffl.jpg",
+            "https://res.cloudinary.com/da6j6pfqb/image/upload/v1753365374/WhatsApp_Image_2025-07-24_at_08.55.35_1_p3onw4.jpg",
+            "https://res.cloudinary.com/da6j6pfqb/image/upload/v1753365372/WhatsApp_Image_2025-07-24_at_08.55.31_alpwfk.jpg",
+            "https://res.cloudinary.com/da6j6pfqb/image/upload/v1753365374/WhatsApp_Image_2025-07-24_at_08.55.38_zjyacq.jpg",
+            "https://res.cloudinary.com/da6j6pfqb/image/upload/v1753365372/WhatsApp_Image_2025-07-24_at_08.55.33_eixn9q.jpg",
+            "https://res.cloudinary.com/da6j6pfqb/image/upload/v1753365375/WhatsApp_Image_2025-07-24_at_08.55.37_hxyfrp.jpg"
+        ];
+        let currentPhotoIndex = 0;
+
+        // URL embed video Google Drive Anda (ganti ini dengan URL embed dari Google Drive Anda)
+        // Pastikan video di Google Drive sudah diatur "Siapa saja yang memiliki link" dan Anda mendapatkan URL embed-nya.
+        // Contoh: https://drive.google.com/file/d/FILE_ID_ANDA/preview
+        const googleDriveEmbedUrl = 'https://drive.google.com/file/d/1MXp9GR96QhCczs-r4LHw7qcbGh_qXB5C/preview'; // GANTI INI!
+
+        // URL Google Drive untuk tombol hadiah spesial
+        const specialGiftDriveUrl = 'https://drive.google.com/drive/folders/1Y3GE0fTFmR1XFWi3FFwy-voDAnShcBUz'; // GANTI INI DENGAN URL FOLDER GOOGLE DRIVE ANDA!
+
+        // Dapatkan elemen audio
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const muteButton = document.getElementById('muteButton');
+        const volumeOnIcon = document.getElementById('volumeOnIcon');
+        const volumeOffIcon = document.getElementById('volumeOffIcon');
+        const targetVolume = 0.5; // Volume target untuk musik latar
+
+        let isMusicPlaying = false; // Status untuk melacak apakah musik sedang diputar
+        let mainPageHeartInterval; // Variabel untuk interval hati halaman utama
+
+        // Fungsi untuk fade-out audio
+        function fadeAudioOut(audioElement, duration = 500) {
+            const startVolume = audioElement.volume;
+            const steps = 50;
+            const stepTime = duration / steps;
+            let currentStep = 0;
+
+            const fadeInterval = setInterval(() => {
+                currentStep++;
+                audioElement.volume = startVolume * (1 - (currentStep / steps));
+                if (currentStep >= steps) {
+                    clearInterval(fadeInterval);
+                    audioElement.pause();
+                    audioElement.volume = targetVolume; // Reset volume untuk fade-in berikutnya
+                    isMusicPlaying = false;
+                    updateMuteButtonIcon(); // Perbarui ikon setelah fade out
+                }
+            }, stepTime);
+        }
+
+        // Fungsi untuk fade-in audio
+        function fadeAudioIn(audioElement, duration = 1000) {
+            audioElement.volume = 0; // Mulai dari volume 0
+            audioElement.play().then(() => {
+                isMusicPlaying = true;
+                updateMuteButtonIcon(); // Perbarui ikon setelah play
+            }).catch(e => {
+                console.log("Autoplay prevented:", e);
+                // Jika autoplay diblokir, atur status ke false
+                isMusicPlaying = false;
+                updateMuteButtonIcon(); // Perbarui ikon jika autoplay diblokir
+            });
+
+            const steps = 100;
+            const stepTime = duration / steps;
+            let currentStep = 0;
+
+            const fadeInterval = setInterval(() => {
+                currentStep++;
+                audioElement.volume = targetVolume * (currentStep / steps);
+                if (currentStep >= steps) {
+                    clearInterval(fadeInterval);
+                    audioElement.volume = targetVolume; // Pastikan volume tepat di target
+                }
+            }, stepTime);
+        }
+
+        // Fungsi untuk memperbarui ikon tombol mute
+        function updateMuteButtonIcon() {
+            if (isMusicPlaying) {
+                volumeOnIcon.classList.remove('hidden');
+                volumeOffIcon.classList.add('hidden');
+            } else {
+                volumeOnIcon.classList.add('hidden');
+                volumeOffIcon.classList.remove('hidden');
+            }
+        }
+
+        // Event listener untuk tombol mute/unmute
+        muteButton.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                fadeAudioIn(backgroundMusic);
+            } else {
+                fadeAudioOut(backgroundMusic);
+            }
+        });
+
+        // Fungsi untuk menampilkan modal pesan
+        function showModal(message) {
+            const modal = document.getElementById('myModal');
+            const modalMessage = document.getElementById('modalMessage');
+            modalMessage.textContent = message;
+            modal.style.display = 'flex'; // Use flex to center content
+        }
+
+        // Fungsi untuk menyembunyikan modal pesan
+        function hideModal() {
+            const modal = document.getElementById('myModal');
+            modal.style.display = 'none';
+            // Play music when message modal is closed (if not playing due to video)
+            // Hanya putar jika tidak sedang diputar dan tidak ada video yang aktif
+            if (backgroundMusic.paused && document.getElementById('videoPlayer').classList.contains('hidden')) {
+                fadeAudioIn(backgroundMusic);
+            }
+        }
+
+        // Event listener untuk tombol tutup modal pesan
+        document.getElementById('closeModalBtn').addEventListener('click', hideModal);
+        // Event listener untuk tombol hati di modal pesan
+        document.getElementById('modalOkBtn').addEventListener('click', hideModal);
+
+        // Fungsi untuk menampilkan modal gambar
+        function showImageModal(index) {
+            const imageModal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            currentPhotoIndex = index;
+            modalImage.src = photoUrls[currentPhotoIndex];
+            imageModal.style.display = 'flex';
+            // Musik tidak dimatikan saat modal gambar dibuka
+        }
+
+        // Fungsi untuk menyembunyikan modal gambar
+        function hideImageModal() {
+            const imageModal = document.getElementById('imageModal');
+            imageModal.style.display = 'none';
+            // Musik tidak diputar kembali saat modal gambar ditutup karena tidak pernah berhenti
+        }
+
+        // Event listener untuk menutup modal gambar ketika mengklik di luar gambar
+        document.getElementById('imageModal').addEventListener('click', function(event) {
+            // Periksa apakah target klik adalah modal itu sendiri (bukan konten di dalamnya)
+            if (event.target === this) {
+                hideImageModal();
+            }
+        });
+
+        // Fungsi untuk menampilkan gambar berikutnya
+        function nextImage() {
+            currentPhotoIndex = (currentPhotoIndex + 1) % photoUrls.length;
+            document.getElementById('modalImage').src = photoUrls[currentPhotoIndex];
+        }
+
+        // Fungsi untuk menampilkan gambar sebelumnya
+        function prevImage() {
+            currentPhotoIndex = (currentPhotoIndex - 1 + photoUrls.length) % photoUrls.length;
+            document.getElementById('modalImage').src = photoUrls[currentPhotoIndex];
+        }
+
+        // Event listener untuk tombol navigasi gambar
+        document.getElementById('prevImageBtn').addEventListener('click', prevImage);
+        document.getElementById('nextImageBtn').addEventListener('click', nextImage);
+        document.getElementById('closeImageModalBtn').addEventListener('click', hideImageModal);
+
+
+        let initialHeartInterval; // Variabel untuk menyimpan interval hati awal
+        let balloonInterval; // Variabel untuk menyimpan interval balon
+        let trumpetBlastTimeout; // Variabel untuk menyimpan timeout terompet
+
+        // Event listener untuk tombol kejutan
+        document.getElementById('surpriseButton').addEventListener('click', function() {
+            // Hentikan animasi hati awal
+            clearInterval(initialHeartInterval);
+            const initialHeartContainer = document.getElementById('initialHeartContainer');
+            initialHeartContainer.innerHTML = ''; // Hapus semua hati yang tersisa
+
+            // Sembunyikan halaman awal secara eksplisit
+            const initialPage = document.getElementById('initialPage');
+            initialPage.classList.add('hidden'); // Tailwind hidden class
+            initialPage.style.display = 'none'; // Ensure it's hidden via direct style
+            
+            // Tampilkan konten utama dengan menambahkan kelas animasi fade-in
+            const mainContent = document.getElementById('mainContent');
+            mainContent.classList.remove('hidden'); // Ubah display dari none ke flex
+            mainContent.classList.add('fade-in-content-active'); // Tambahkan kelas untuk memicu animasi
+
+            // Tampilkan confetti
+            createConfetti();
+            // Pesan selamat datang
+            showModal("Selamat ulang tahun, Cia sayangku! Semoga hari-harinya penuh kebahagiaan dan cinta."); // This message will be shown first
+
+            // Coba putar musik saat tombol kejutan diklik
+            fadeAudioIn(backgroundMusic);
+
+            // Mulai animasi balon dan terompet setelah main content ditampilkan
+            startCelebrationAnimations();
+            // Mulai animasi hati di halaman utama
+            startMainPageHeartAnimation();
+        });
+
+        // Fungsi untuk membuat hati animasi di halaman awal
+        function createInitialHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('initial-heart');
+            const size = Math.random() * 15 + 10; // Ukuran hati antara 10px dan 25px
+            heart.style.width = `${size}px`;
+            heart.style.height = `${size}px`;
+            heart.style.left = `${Math.random() * 100}vw`; // Posisi horizontal acak
+            heart.style.top = `${50 + Math.random() * 30 - 15}vh`; // Posisi vertikal di sekitar tengah
+            heart.style.animationDuration = `${Math.random() * 1 + 1.5}s`; // Durasi 1.5-2.5s
+            heart.style.animationDelay = `${Math.random() * 0.5}s`; // Delay kecil
+            document.getElementById('initialHeartContainer').appendChild(heart);
+
+            // Hapus hati setelah animasi selesai
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        // Buat hati awal secara berkala
+        initialHeartInterval = setInterval(createInitialHeart, 300); // Setiap 0.3 detik
+
+        // Fungsi untuk membuat hati animasi di halaman utama
+        function createMainPageHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('main-page-heart');
+            const size = Math.random() * 25 + 15; // Ukuran hati antara 15px dan 40px
+            heart.style.width = `${size}px`;
+            heart.style.height = `${size}px`;
+            heart.style.left = `${Math.random() * 100}vw`; // Posisi horizontal acak
+            heart.style.bottom = `-50px`; // Mulai dari bawah layar
+            heart.style.animationDuration = `${Math.random() * 4 + 4}s`; // Durasi 4-8s
+            heart.style.animationDelay = `${Math.random() * 2}s`; // Delay acak
+            document.getElementById('mainPageHeartContainer').appendChild(heart);
+
+            // Hapus hati setelah animasi selesai
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        // Fungsi untuk memulai animasi hati di halaman utama
+        function startMainPageHeartAnimation() {
+            mainPageHeartInterval = setInterval(createMainPageHeart, 200); // Setiap 0.2 detik
+            // Hentikan setelah beberapa waktu (misal 60 detik) agar tidak terlalu banyak elemen DOM
+            setTimeout(() => {
+                clearInterval(mainPageHeartInterval);
+            }, 60000);
+        }
+
+        // Fungsi untuk membuat confetti
+        function createConfetti() {
+            const confettiContainer = document.getElementById('confettiContainer');
+            const colors = ['#ffcc00', '#ff69b4', '#90ee90', '#add8e6', '#da70d6']; // Warna confetti
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.top = `${Math.random() * -200}px`; // Mulai dari atas layar
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = `${Math.random() * 2 + 3}s`; // Durasi 3-5s
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`; // Delay kecil
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`; // Rotasi awal acak
+                confettiContainer.appendChild(confetti);
+
+                // Hapus confetti setelah animasi selesai
+                confetti.addEventListener('animationend', () => {
+                    confetti.remove();
+                });
+            }
+        }
+
+        // Logika untuk memutar video saat thumbnail diklik
+        document.getElementById('videoThumbnail').addEventListener('click', function() {
+            const videoContainer = document.getElementById('videoContainer');
+            const videoThumbnail = document.getElementById('videoThumbnail');
+            const videoPlayer = document.getElementById('videoPlayer');
+
+            // Sembunyikan thumbnail dan tampilkan video player
+            videoThumbnail.classList.add('hidden');
+            videoPlayer.classList.remove('hidden');
+
+            // Buat iframe baru jika belum ada atau perbarui src untuk memastikan autoplay
+            let iframe = videoPlayer.querySelector('iframe');
+            if (!iframe) {
+                iframe = document.createElement('iframe');
+                iframe.setAttribute('class', 'w-full h-full');
+                iframe.setAttribute('title', 'Video Spesial untuk Cia');
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('allow', 'autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                iframe.setAttribute('allowfullscreen', '');
+                videoPlayer.appendChild(iframe);
+
+                // Tambahkan event listener 'ended' ke iframe yang baru dibuat
+                iframe.addEventListener('ended', function() {
+                    // Video selesai, sembunyikan video, tampilkan thumbnail, dan putar backsound
+                    videoPlayer.classList.add('hidden');
+                    videoThumbnail.classList.remove('hidden');
+                    videoPlayer.innerHTML = ''; // Hapus iframe untuk menghentikan pemutaran
+                    fadeAudioIn(backgroundMusic);
+                });
+            }
+            // Selalu perbarui src untuk memastikan autoplay dan memuat ulang video jika sudah ada
+            iframe.src = googleDriveEmbedUrl + '?autoplay=1';
+
+            // Matikan backsound saat video mulai diputar
+            fadeAudioOut(backgroundMusic);
+        });
+
+        // Event listener untuk mengklik area video player untuk menutupnya dan melanjutkan musik
+        // Ini berfungsi sebagai tombol toggle untuk video
+        document.getElementById('videoPlayer').addEventListener('click', function(event) {
+            // Pastikan klik bukan dari dalam iframe itu sendiri, tetapi dari div videoPlayer
+            if (event.target === this) {
+                const videoContainer = document.getElementById('videoContainer');
+                const videoThumbnail = document.getElementById('videoThumbnail');
+                const videoPlayer = document.getElementById('videoPlayer');
+
+                // Jika video player terlihat, sembunyikan dan tampilkan thumbnail
+                if (!videoPlayer.classList.contains('hidden')) {
+                    videoPlayer.classList.add('hidden');
+                    videoThumbnail.classList.remove('hidden');
+                    // Hentikan video dengan menghapus konten iframe
+                    videoPlayer.innerHTML = '';
+                    // Putar kembali backsound
+                    fadeAudioIn(backgroundMusic);
+                }
+            }
+        });
+
+        // Fungsi untuk membuat elemen balon
+        function createBalloonElement() {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon-element');
+            const size = Math.random() * 40 + 30; // Ukuran balon antara 30px dan 70px
+            balloon.style.width = `${size}px`;
+            balloon.style.height = `${size + (size * 0.2)}px`; // Bentuk oval sedikit
+            balloon.style.left = `${Math.random() * 100}vw`; // Posisi horizontal acak di seluruh viewport
+            balloon.style.bottom = `-100px`; // Mulai dari bawah layar
+            balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 70%)`; // Warna acak cerah
+            balloon.style.animationDuration = `${Math.random() * 5 + 8}s`; // Durasi 8-13s
+            balloon.style.animationDelay = `${Math.random() * 2}s`; // Delay acak
+            document.getElementById('balloonAndTrumpetContainer').appendChild(balloon);
+
+            balloon.addEventListener('animationend', () => {
+                balloon.remove();
+            });
+        }
+
+        // Fungsi untuk membuat efek ledakan terompet
+        function createTrumpetBlast() {
+            const greetingElement = document.getElementById('birthdayGreeting');
+            const rect = greetingElement.getBoundingClientRect();
+            const container = document.getElementById('balloonAndTrumpetContainer'); // Ini adalah kontainer di level body
+
+            for (let i = 0; i < 5; i++) { // Buat 5 elemen ledakan
+                const blast = document.createElement('div');
+                blast.classList.add('trumpet-blast-element');
+                const size = Math.random() * 10 + 5; // Ukuran antara 5px dan 15px
+                blast.style.width = `${size}px`;
+                blast.style.height = `${size}px`;
+
+                // Posisi relatif terhadap viewport (karena container sekarang full-screen)
+                const offsetX = (Math.random() - 0.5) * rect.width * 0.8;
+                const offsetY = (Math.random() - 0.5) * rect.height * 0.8;
+
+                // Posisi absolut di dalam kontainer yang sekarang full-screen
+                blast.style.left = `${rect.left + rect.width / 2 + offsetX}px`;
+                blast.style.top = `${rect.top + rect.height / 2 + offsetY}px`;
+
+                blast.style.animationDuration = `${Math.random() * 0.3 + 0.5}s`; // Durasi 0.5-0.8s
+                blast.style.animationDelay = `${Math.random() * 0.2}s`; // Delay kecil
+                container.appendChild(blast);
+
+                blast.addEventListener('animationend', () => {
+                    blast.remove();
+                });
+            }
+        }
+
+        // Fungsi untuk memulai animasi perayaan (balon dan terompet)
+        function startCelebrationAnimations() {
+            // Mulai animasi balon
+            balloonInterval = setInterval(createBalloonElement, 1000); // Setiap 1 detik
+
+            // Panggil efek terompet beberapa kali di awal
+            for(let i = 0; i < 3; i++) {
+                setTimeout(createTrumpetBlast, i * 300); // Jeda 0.3 detik antar ledakan
+            }
+
+            // Atur timeout untuk menghentikan balon setelah beberapa waktu (misal 30 detik)
+            setTimeout(() => {
+                clearInterval(balloonInterval);
+            }, 30000);
+        }
+
+        // Fungsi untuk memuat foto ke dalam photo-grid
+        function loadPhotos() {
+            const photoGrid = document.getElementById('photoGrid');
+            photoGrid.innerHTML = ''; // Bersihkan grid yang ada
+
+            photoUrls.forEach((url, index) => {
+                const photoDiv = document.createElement('div');
+                photoDiv.classList.add('relative', 'w-full', 'h-64', 'rounded-xl', 'overflow-hidden', 'shadow-lg', 'transform', 'hover:scale-105', 'transition', 'duration-300', 'clickable-photo');
+
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = `Momen Indah ${index + 1}`;
+                img.classList.add('w-full', 'h-full', 'object-cover', 'object-center');
+
+                photoDiv.appendChild(img);
+                photoGrid.appendChild(photoDiv);
+
+                // Tambahkan event listener untuk membuka modal gambar
+                photoDiv.addEventListener('click', () => {
+                    showImageModal(index);
+                });
+            });
+        }
+
+        // Event listener untuk tombol hadiah spesial
+        document.getElementById('specialGiftButton').addEventListener('click', () => {
+            window.open(specialGiftDriveUrl, '_blank'); // Buka di tab baru
+        });
+
+        // Inisialisasi halaman saat DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPhotos(); // Panggil fungsi untuk memuat foto saat DOMContentLoaded
+
+            // Get initialPage element
+            const initialPage = document.getElementById('initialPage');
+            // const mainContent = document.getElementById('mainContent'); // mainContent is used inside surpriseButton click
+
+            // Wait for all fonts to be loaded
+            document.fonts.ready.then(() => {
+                // Once fonts are ready, display the initial page
+                initialPage.style.display = 'flex';
+            });
+
+            // Inisialisasi ikon tombol mute/unmute saat halaman dimuat
+            updateMuteButtonIcon();
+        });
+    </script>
+</body>
+</html>
